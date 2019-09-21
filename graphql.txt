@@ -1,0 +1,28 @@
+
+https://code-maze.com/graphql-aspnetcore-basics/amp/
+https://code-maze.com/advanced-graphql-queries/
+https://code-maze.com/graphql-mutations/
+
+http://corstianboerman.com/2019-03-08/implementing-pagination-with-graphql-net-and-relay.html
+
+---- Create new ---------
+mutation ($product: productInput!){
+   createProduct(product: $product){
+    name
+  }
+}
+
+{"product": {
+  "name": "deneme2", 
+  "categoryId": 1,
+  "price": 100
+}}
+
+--------List-----------
+{
+  products{
+    id
+    name
+    category{name}
+  }
+}
