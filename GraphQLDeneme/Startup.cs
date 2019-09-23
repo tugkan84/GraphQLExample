@@ -32,9 +32,9 @@ namespace GraphQLDeneme
             services.AddTransient<CategoryType>();
             services.AddTransient<ProductType>();
             services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
-            services.AddScoped<EasyStoreQuery>();
+            services.AddScoped<AppQuery>();
 
-            services.AddScoped<EasyStoreSchema>();
+            services.AddScoped<AppSchema>();
 
             services.AddScoped<IDocumentExecuter, DocumentExecuter>();
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
@@ -61,7 +61,7 @@ namespace GraphQLDeneme
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            app.UseGraphQL<EasyStoreSchema>("/graphql");
+            app.UseGraphQL<AppSchema>("/graphql");
             app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
         }
     }

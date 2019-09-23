@@ -42,14 +42,16 @@ namespace GraphQLDeneme.Data.Concrete
 
         public Product Add(Product entity)
         {
-            entity.Id = _products.Count+1;
+            entity.Id = _products.Count + 1;
             _products.Add(entity);
             return entity;
         }
 
         public Product DeleteById(int id)
         {
-            throw new NotImplementedException();
+            var deletedProduct = _products.FirstOrDefault(x => x.Id == id);
+            _products.Remove(deletedProduct);
+            return deletedProduct;
         }
 
         public Task<List<Product>> GetAllAsync()
@@ -59,12 +61,12 @@ namespace GraphQLDeneme.Data.Concrete
 
         public Task<Product> GetByIdAsync(int id)
         {
-            return Task.FromResult(_products.FirstOrDefault(x=> x.Id == id));
+            return Task.FromResult(_products.FirstOrDefault(x => x.Id == id));
         }
 
         public Task<List<Product>> GetProductsWithByCategoryIdAsync(int categoryId)
         {
-            return Task.FromResult(_products.Where(x=> x.CategoryId == categoryId).ToList());
+            return Task.FromResult(_products.Where(x => x.CategoryId == categoryId).ToList());
         }
 
         public Product Update(Product entity)

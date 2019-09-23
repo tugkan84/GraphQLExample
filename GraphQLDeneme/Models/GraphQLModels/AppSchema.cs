@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace GraphQLDeneme.Models.GraphQLModels
 {
-    public class EasyStoreSchema : Schema
+    public class AppSchema : Schema
     {
-        public EasyStoreSchema(IDependencyResolver resolver)
+        public AppSchema(IDependencyResolver resolver)
         : base(resolver)
         {
-            Query = resolver.Resolve<EasyStoreQuery>();
+            Query = resolver.Resolve<AppQuery>();
             Mutation = resolver.Resolve<AppMutation>();
         }
     }

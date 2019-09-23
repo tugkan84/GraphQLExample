@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GraphQLDeneme.Data
 {
-    public interface IRepository<T> where T : new()
+    public interface IRepository<T>  :ICommandRepository<T> , IQueryRepository<T>  where T : new() 
     {
       
     }

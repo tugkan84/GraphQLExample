@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace GraphQLDeneme.Models.GraphQLModels
 {
-    public class EasyStoreQuery : ObjectGraphType
+    public class AppQuery : ObjectGraphType
     {
         private IHttpContextAccessor _httpContextAccessor;
 
-        public EasyStoreQuery(ICategoryRepository categoryRepository, IProductRepository productRepository, IHttpContextAccessor httpContextAccessor)
+        public AppQuery(ICategoryRepository categoryRepository, IProductRepository productRepository, IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
 
