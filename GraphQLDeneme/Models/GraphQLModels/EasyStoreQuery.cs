@@ -1,13 +1,18 @@
 ﻿using GraphQL.Types;
 using GraphQLDeneme.Data;
+using Microsoft.AspNetCore.Http;
 using System.Linq;
 
 namespace GraphQLDeneme.Models.GraphQLModels
 {
     public class EasyStoreQuery : ObjectGraphType
     {
-        public EasyStoreQuery(ICategoryRepository categoryRepository, IProductRepository productRepository)
+        private IHttpContextAccessor _httpContextAccessor;
+
+        public EasyStoreQuery(ICategoryRepository categoryRepository, IProductRepository productRepository, IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
+
             Field<CategoryType>(
                 "category",
                 arguments: new QueryArguments(
@@ -30,8 +35,7 @@ namespace GraphQLDeneme.Models.GraphQLModels
                     }
 
                     return productRepository.GetByIdAsync(context.GetArgument<int>("id")).Result;
-                }
-                    );
+                });
 
             Field<ListGraphType<ProductType>>(
                 "products",
@@ -47,19 +51,7 @@ namespace GraphQLDeneme.Models.GraphQLModels
                     }
 
                     return productRepository.GetAllAsync();
-                }
-                    );
-
-            //Connection<ListGraphType<ProductType>>()
-            //    .Name("productConnect")
-            //    .Bidirectional()
-            //    .Argument<StringGraphType>("name","Search by name")
-            //    .Argument<ListGraphType<IntGraphType>>("ids","Get ids")
-            //    .Argument<ListGraphType<IntGraphType>>("order","Order by")
-            //    .ResolveAsync(async context => {
-            //        return await productRepository.GetAllAsync();
-            //    });
-
+                });
         }
     }
 }
