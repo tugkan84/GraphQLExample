@@ -1,9 +1,5 @@
 ﻿using GraphQL.Types;
 using GraphQLDeneme.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphQLDeneme.Models.GraphQLModels
 {
@@ -24,7 +20,7 @@ namespace GraphQLDeneme.Models.GraphQLModels
                 );
         }
 
-        private class ProductInputType : InputObjectGraphType
+        public class ProductInputType : InputObjectGraphType
         {
             public ProductInputType()
             {

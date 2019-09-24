@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static GraphQLDeneme.Models.GraphQLModels.AppMutation;
 
 namespace GraphQLDeneme
 {
@@ -27,20 +28,24 @@ namespace GraphQLDeneme
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<AppQuery>();
             services.AddSingleton<ICategoryRepository, CategoryRepository>();
             services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddTransient<CategoryType>();
             services.AddTransient<ProductType>();
             services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
-            services.AddScoped<AppQuery>();
-
+            services.AddScoped<AppMutation>();
             services.AddScoped<AppSchema>();
+            services.AddScoped<ProductInputType>();
 
             services.AddScoped<IDocumentExecuter, DocumentExecuter>();
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
 
-            services.AddGraphQL(o => { o.ExposeExceptions = false; })
-                .AddGraphTypes(ServiceLifetime.Scoped);
+            var sp = services.BuildServiceProvider();
+            services.AddScoped<ISchema>(_ => new AppSchema(sp.GetRequiredService<IDependencyResolver>()));
+
+            //services.AddGraphQL(o => { o.ExposeExceptions = false; })
+            //    .AddGraphTypes(ServiceLifetime.Scoped);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -61,8 +66,7 @@ namespace GraphQLDeneme
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            app.UseGraphQL<AppSchema>("/graphql");
-            app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
+            
         }
     }
 }

@@ -7,12 +7,8 @@ namespace GraphQLDeneme.Models.GraphQLModels
 {
     public class AppQuery : ObjectGraphType
     {
-        private IHttpContextAccessor _httpContextAccessor;
-
-        public AppQuery(ICategoryRepository categoryRepository, IProductRepository productRepository, IHttpContextAccessor httpContextAccessor)
+        public AppQuery(ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
-            _httpContextAccessor = httpContextAccessor;
-
             Field<CategoryType>(
                 "category",
                 arguments: new QueryArguments(
