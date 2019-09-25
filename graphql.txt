@@ -26,3 +26,8 @@ mutation ($product: productInput!){
     category{name}
   }
 }
+
+{ 
+ "query":"mutation($product: productInput!){createProduct(product:$product){name}}",
+"variables":"{product:{name: 'deneme2', categoryId: 1,price: 100}}"
+}

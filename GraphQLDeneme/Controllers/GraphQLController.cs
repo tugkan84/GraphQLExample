@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Types;
@@ -21,12 +19,36 @@ namespace GraphQLDeneme.Controllers
             _schema = schema;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get([FromBody]GraphQLQuery query)
+        {
+            if (query == null) { throw new ArgumentNullException(nameof(query)); }
+            
+            var executionOptions = new ExecutionOptions { Schema = _schema, Query = query.Query };
+
+            try
+            {
+                var result = await _documentExecuter.ExecuteAsync(executionOptions).ConfigureAwait(false);
+
+                if (result.Errors?.Count > 0)
+                {
+                    return BadRequest(result);
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]GraphQLQuery query)
         {
             if (query == null) { throw new ArgumentNullException(nameof(query)); }
-
-            var executionOptions = new ExecutionOptions { Schema = _schema, Query = query.Query };
+            
+            var executionOptions = new ExecutionOptions { Schema = _schema, Query = query.Query , Inputs = query.Variables.ToInputs() };
 
             try
             {
